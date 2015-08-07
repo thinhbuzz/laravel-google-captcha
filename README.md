@@ -49,20 +49,31 @@ CAPTCHA_SITEKEY=[site-key]
 ##### Display reCAPTCHA
 
 ```php
-{!! app('captcha')->display() !!}
+{!! app('captcha')->display($attributes) !!}
 ```
 
 OR
 
 ```php
-{!! captcha_html() !!}
+{!! captcha_html($attributes) !!}
 ```
 
 OR use Facade: add `'Captcha' => '\Buzz\LaravelGoogleCaptcha\CaptchaFacade',` to the `aliases` array in `app/config/app.php` and in template use:
 
 ```php
-{!! Captcha::display() !!}
+{!! Captcha::display($attributes) !!}
 ```
+
+With
+
+```php
+$attributes = [
+	'data-theme' => 'dark',
+	'data-type'	=>	'audio',
+];
+```
+
+More infomation on [google recaptcha document](https://developers.google.com/recaptcha/docs/display)
 
 ##### Validation
 
