@@ -63,6 +63,11 @@ OR use Facade: add `'Captcha' => '\Buzz\LaravelGoogleCaptcha\CaptchaFacade',` to
 ```php
 {!! Captcha::display($attributes) !!}
 ```
+OR use Form
+
+```php
+{!! Form::captcha($attributes) !!}
+```
 
 With
 
