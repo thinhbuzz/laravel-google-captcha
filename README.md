@@ -68,6 +68,10 @@ OR use Form
 ```php
 {!! Form::captcha($attributes) !!}
 ```
+With custom language support:
+```php
+{!! app('captcha')->display($attributes = [], $lang = null); !!}
+```
 
 With
 
@@ -89,8 +93,20 @@ $validate = Validator::make(Input::all(), [
 	'g-recaptcha-response' => 'required|captcha'
 ]);
 ```
+##### Testing
 
+When using the Laravel Testing functionality, you will need to mock out the response for the captcha form element.
+For any form tests involving the captcha, you can then mock the facade behaviour:
 
+```php
+// prevent validation error on captcha
+        CaptchaFacade::shouldReceive('verify')
+            ->andReturn(true);
+            
+// provide hidden input for your 'required' validation
+        CaptchaFacade::shouldReceive('display')
+            ->andReturn('<input type="hidden" name="g-recaptcha-response" value="1" />');
+```
 ## Contribute
 
 https://github.com/thinhbuzz/laravel-google-captcha/pulls
