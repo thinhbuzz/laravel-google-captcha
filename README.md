@@ -11,7 +11,7 @@ Add the following line to the `require` section of `composer.json`:
 ```json
 {
     "require": {
-        "buzz/laravel-google-captcha": "1.*"
+        "buzz/laravel-google-captcha": "2.*"
     }
 }
 ```
@@ -83,6 +83,11 @@ $attributes = [
 ```
 
 More infomation on [google recaptcha document](https://developers.google.com/recaptcha/docs/display)
+
+##### View example
+>> Get examples in examples directory
+
+>> Please help me write readme for this content
 
 ##### Validation
 

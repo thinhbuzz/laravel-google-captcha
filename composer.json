@@ -1,5 +1,6 @@
 {
   "name": "buzz/laravel-google-captcha",
+  "version": "2.0",
   "description": "Google captcha for laravel 5.*",
   "keywords": [
     "recaptcha",

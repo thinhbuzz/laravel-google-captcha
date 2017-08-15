@@ -1,4 +1,5 @@
 <?php
+
 namespace Buzz\LaravelGoogleCaptcha;
 
 use Illuminate\Support\ServiceProvider;
@@ -21,14 +22,15 @@ class CaptchaServiceProvider extends ServiceProvider
     {
         $app = $this->app;
         $this->bootConfig();
+        /** @noinspection PhpUnusedParameterInspection */
         $app['validator']->extend(
-            'captcha', function ($attribute, $value) use ($app){
+            'captcha', function ($attribute, $value) use ($app) {
             return $app['captcha']->verify($value, $app['request']->getClientIp());
         }
         );
         if ($app->bound('form')) {
             $app['form']->macro(
-                'captcha', function ($attributes = []) use ($app){
+                'captcha', function ($attributes = []) use ($app) {
                 return $app['captcha']->display($attributes, $app->getLocale());
             }
             );
@@ -44,7 +46,7 @@ class CaptchaServiceProvider extends ServiceProvider
     {
         $path = __DIR__ . '/../config/config.php';
         $this->mergeConfigFrom($path, 'captcha');
-        $this->publishes([$path => config_path('captcha.php')]);
+        $this->publishes([$path => $this->app->make('path.config') . ('captcha.php')]);
     }
 
     /**
@@ -54,8 +56,8 @@ class CaptchaServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind(
-            'captcha', function ($app){
+        $this->app->singleton(
+            'captcha', function ($app) {
             return new Captcha(
                 $app['config']['captcha.secret'],
                 $app['config']['captcha.sitekey']
