@@ -86,7 +86,7 @@ class Captcha
         }
         $html = '';
         if (!$isMultiple && array_get($attributes, 'add-js', true)) {
-            $html .= '<script src="' . $this->getJsLink($this->options->get('lang', $options)) . '" async defer></script>';
+            $html .= '<script src="' . $this->getJsLink($options) . '" async defer></script>';
         }
         unset($attributes['add-js']);
         if (!empty($this->options->get('attributes', $options))) {
