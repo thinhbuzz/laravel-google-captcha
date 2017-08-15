@@ -26,9 +26,7 @@ composer require buzz/laravel-google-captcha
 
 Update your packages with ```composer update``` or install with ```composer install```.
 
-## Laravel 5
-
-### Setup
+## Setup
 
 Add ServiceProvider to the `providers` array in `app/config/app.php`.
 
@@ -36,7 +34,7 @@ Add ServiceProvider to the `providers` array in `app/config/app.php`.
 'Buzz\LaravelGoogleCaptcha\CaptchaServiceProvider',
 ```
 
-### Configuration
+## Configuration
 
 Add `CAPTCHA_SECRET` and `CAPTCHA_SITEKEY` to **.env** file:
 
@@ -45,9 +43,9 @@ CAPTCHA_SECRET=[secret-key]
 CAPTCHA_SITEKEY=[site-key]
 ```
 
-### Usage
+## Usage
 
-##### Display reCAPTCHA
+### Display reCAPTCHA
 
 ```php
 {!! app('captcha')->display($attributes) !!}
@@ -79,12 +77,12 @@ $attributes = [
 
 More infomation on [google recaptcha document](https://developers.google.com/recaptcha/docs/display)
 
-##### View example
+### View example
 > Get examples in examples directory
 
 > Please help me write readme for this content
 
-##### Validation
+### Validation
 
 Add `'g-recaptcha-response' => 'required|captcha'` to rules array.
 
@@ -93,7 +91,7 @@ $validate = Validator::make(Input::all(), [
 	'g-recaptcha-response' => 'required|captcha'
 ]);
 ```
-##### Testing
+### Testing
 
 When using the Laravel Testing functionality, you will need to mock out the response for the captcha form element.
 For any form tests involving the captcha, you can then mock the facade behaviour:
