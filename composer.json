@@ -27,9 +27,6 @@
   "autoload": {
     "psr-4": {
       "Buzz\\LaravelGoogleCaptcha\\": "src"
-    },
-    "files": [
-      "src/helpers.php"
-    ]
+    }
   }
 }

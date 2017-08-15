@@ -1,4 +1,5 @@
 # Google captcha for laravel 5.*
+> Support multiple captcha on page
 
 ![google captcha for laravel 5](http://i.imgur.com/aHBOqAS.gif)
 
@@ -52,12 +53,6 @@ CAPTCHA_SITEKEY=[site-key]
 {!! app('captcha')->display($attributes) !!}
 ```
 
-OR
-
-```php
-{!! captcha_html($attributes) !!}
-```
-
 OR use Facade: add `'Captcha' => '\Buzz\LaravelGoogleCaptcha\CaptchaFacade',` to the `aliases` array in `app/config/app.php` and in template use:
 
 ```php
@@ -85,9 +80,9 @@ $attributes = [
 More infomation on [google recaptcha document](https://developers.google.com/recaptcha/docs/display)
 
 ##### View example
->> Get examples in examples directory
+> Get examples in examples directory
 
->> Please help me write readme for this content
+> Please help me write readme for this content
 
 ##### Validation
 
