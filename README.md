@@ -97,13 +97,18 @@ When using the Laravel Testing functionality, you will need to mock out the resp
 For any form tests involving the captcha, you can then mock the facade behaviour:
 
 ```php
-// prevent validation error on captcha
+// Prevent validation error on captcha
         CaptchaFacade::shouldReceive('verify')
             ->andReturn(true);
             
-// provide hidden input for your 'required' validation
+// Provide hidden input for your 'required' validation
         CaptchaFacade::shouldReceive('display')
             ->andReturn('<input type="hidden" name="g-recaptcha-response" value="1" />');
+            
+// Add these when testing multiple captchas on a single page
+        CaptchaFacade::shouldReceive('displayJs');
+        CaptchaFacade::shouldReceive('displayMultiple');
+        CaptchaFacade::shouldReceive('multiple');
 ```
 ## Contribute
 
