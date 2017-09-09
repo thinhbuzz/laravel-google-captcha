@@ -63,13 +63,21 @@ OR use Form
 ```
 With custom language support:
 ```php
-{!! app('captcha')->display($attributes = [], $lang = null); !!}
+{!! app('captcha')->display($attributes = [], $options = ['lang'=> 'vi'); !!}
 ```
 
 With
 
 ```php
+// element attributes
 $attributes = [
+	'data-theme' => 'dark',
+	'data-type'	=>	'audio',
+];
+```
+```php
+// package options
+$options = [
 	'data-theme' => 'dark',
 	'data-type'	=>	'audio',
 ];
