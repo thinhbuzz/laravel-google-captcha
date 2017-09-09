@@ -161,8 +161,7 @@ class Captcha
         }
         $lang = $this->options->get('lang', $options);
         if ($lang) {
-            array_push($query, ['hl', $lang]);
-
+            $query['hl'] = $lang;
         }
 
         return static::CAPTCHA_CLIENT_API . '?' . http_build_query($query);

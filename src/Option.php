@@ -47,7 +47,7 @@ class Option
     public function get($name, $options = [])
     {
         if (array_key_exists($name, $options)) {
-            return $this->$name;
+            return $options[$name];
         }
         if (property_exists($this, $name)) {
             return $this->$name;
