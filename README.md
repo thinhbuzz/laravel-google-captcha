@@ -34,6 +34,12 @@ Add ServiceProvider to the `providers` array in `app/config/app.php`.
 'Buzz\LaravelGoogleCaptcha\CaptchaServiceProvider',
 ```
 
+## Publish Config
+
+```
+php artisan vendor:publish --provider="Buzz\LaravelGoogleCaptcha\CaptchaServiceProvider"
+```
+
 ## Configuration
 
 Add `CAPTCHA_SECRET` and `CAPTCHA_SITEKEY` to **.env** file:
@@ -118,6 +124,7 @@ For any form tests involving the captcha, you can then mock the facade behaviour
         CaptchaFacade::shouldReceive('displayMultiple');
         CaptchaFacade::shouldReceive('multiple');
 ```
+
 ## Contribute
 
 https://github.com/thinhbuzz/laravel-google-captcha/pulls
