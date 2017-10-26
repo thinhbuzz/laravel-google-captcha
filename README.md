@@ -77,15 +77,15 @@ With
 ```php
 // element attributes
 $attributes = [
-	'data-theme' => 'dark',
-	'data-type'	=>	'audio',
+    'data-theme' => 'dark',
+    'data-type' => 'audio',
 ];
 ```
 ```php
 // package options
 $options = [
-	'data-theme' => 'dark',
-	'data-type'	=>	'audio',
+    'data-theme' => 'dark',
+    'data-type'	=> 'audio',
 ];
 ```
 
@@ -102,7 +102,7 @@ Add `'g-recaptcha-response' => 'required|captcha'` to rules array.
 
 ```php
 $validate = Validator::make(Input::all(), [
-	'g-recaptcha-response' => 'required|captcha'
+    'g-recaptcha-response' => 'required|captcha'
 ]);
 ```
 ### Testing
