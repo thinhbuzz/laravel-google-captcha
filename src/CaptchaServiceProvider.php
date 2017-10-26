@@ -46,7 +46,8 @@ class CaptchaServiceProvider extends ServiceProvider
     {
         $path = __DIR__ . '/../config/config.php';
         $this->mergeConfigFrom($path, 'captcha');
-        $this->publishes([$path => $this->app->make('path.config') . ('captcha.php')]);
+        $captcha_path = implode(DIRECTORY_SEPARATOR, [$this->app->make('path.config'),  'captcha.php']);
+        $this->publishes([$path => $captcha_path]);
     }
 
     /**
