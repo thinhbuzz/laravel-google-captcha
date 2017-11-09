@@ -31,7 +31,7 @@ class CaptchaServiceProvider extends ServiceProvider
         if ($app->bound('form')) {
             $app['form']->macro(
                 'captcha', function ($attributes = []) use ($app) {
-                return $app['captcha']->display($attributes, $app->getLocale());
+                return $app['captcha']->display($attributes, ['lang' => $app->getLocale()]);
             }
             );
         }
