@@ -27,5 +27,15 @@
     "psr-4": {
       "Buzz\\LaravelGoogleCaptcha\\": "src"
     }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Buzz\\LaravelGoogleCaptcha\\CaptchaServiceProvider"
+      ],
+      "aliases": {
+        "Captcha": "Buzz\\LaravelGoogleCaptcha\\CaptchaFacade"
+      }
+    }
   }
 }
