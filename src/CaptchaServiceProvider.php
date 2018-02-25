@@ -20,20 +20,18 @@ class CaptchaServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        /**
+         * @var \Illuminate\Foundation\Application $app
+         */
         $app = $this->app;
         $this->bootConfig();
-        /** @noinspection PhpUnusedParameterInspection */
-        $app['validator']->extend(
-            'captcha', function ($attribute, $value) use ($app) {
+        $app['validator']->extend('captcha', function ($attribute, $value) use ($app) {
             return $app['captcha']->verify($value, $app['request']->getClientIp());
-        }
-        );
+        });
         if ($app->bound('form')) {
-            $app['form']->macro(
-                'captcha', function ($attributes = []) use ($app) {
+            $app['form']->macro('captcha', function ($attributes = []) use ($app) {
                 return $app['captcha']->display($attributes, ['lang' => $app->getLocale()]);
-            }
-            );
+            });
         }
     }
 
@@ -58,14 +56,9 @@ class CaptchaServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton(
-            'captcha', function ($app) {
-            return new Captcha(
-                $app['config']['captcha.secret'],
-                $app['config']['captcha.sitekey']
-            );
-        }
-        );
+        $this->app->singleton('captcha', function ($app) {
+            return new Captcha($app['config']);
+        });
     }
 
     /**

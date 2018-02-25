@@ -3,7 +3,7 @@
 namespace Buzz\LaravelGoogleCaptcha;
 
 /**
- * @property string lang Language codes (read more here: https://developers.google.com/recaptcha/docs/language)
+ * @property string lang Language code (read more here: https://developers.google.com/recaptcha/docs/language)
  * @property bool multiple Set multiple mode
  * @property array attributes Array of captcha attribute
  */
@@ -42,7 +42,7 @@ class Option
     /**
      * @param string $name
      * @param array $options
-     * @return null
+     * @return mixed
      */
     public function get($name, $options = [])
     {

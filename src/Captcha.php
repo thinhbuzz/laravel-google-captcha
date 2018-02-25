@@ -2,6 +2,7 @@
 
 namespace Buzz\LaravelGoogleCaptcha;
 
+use Illuminate\Contracts\Config\Repository;
 use ReCaptcha\ReCaptcha;
 
 class Captcha
@@ -28,30 +29,18 @@ class Captcha
      * @var Option $options
      */
     protected $options;
+    /**
+     * @var \Illuminate\Contracts\Config\Repository $config
+     */
+    protected $config;
 
     /**
-     * Use this for communication between your site and Google. Be sure to keep it a secret.
-     *
-     * @var string $secret
+     * @param \Illuminate\Contracts\Config\Repository $config
      */
-    protected $secret;
-
-    /**
-     * Use this in the HTML code your site serves to users.
-     *
-     * @var string $siteKey
-     */
-    protected $siteKey;
-
-    /**
-     * @param string $secret
-     * @param string $siteKey
-     */
-    public function __construct($secret, $siteKey)
+    public function __construct(Repository $config)
     {
         $this->options = new Option(['multiple' => false]);
-        $this->secret = $secret;
-        $this->siteKey = $siteKey;
+        $this->config = $config;
     }
 
     /**
@@ -95,7 +84,7 @@ class Captcha
         if ($isMultiple) {
             array_push($this->captchaAttributes, $attributes);
         } else {
-            $attributes['data-sitekey'] = $this->siteKey;
+            $attributes['data-sitekey'] = $this->config->get('captcha.sitekey');
         }
 
         return $html . '<div class="g-recaptcha"' . $this->buildAttributes($attributes) . '></div>';
@@ -115,7 +104,7 @@ class Captcha
         $excludeAttributes = ['id'];
         $html = ' <script type="text/javascript">var ' . $this->callbackName . ' = function() {';
         foreach ($this->captchaAttributes as $index => $captchaAttribute) {
-            $attributes = ['sitekey' => $this->siteKey];
+            $attributes = ['sitekey' => $this->config->get('captcha.sitekey')];
             foreach ($captchaAttribute as $key => $value) {
                 if (in_array($key, $excludeAttributes)) {
                     continue;
@@ -203,9 +192,13 @@ class Captcha
      */
     public function verify($response, $clientIp = null)
     {
-        if (empty($response)) return false;
-        $resp = (new ReCaptcha($this->secret))->verify($response, $clientIp);
+        if (empty($response)) {
+            return false;
+        }
+        $getRequestMethod = $this->config->get('captcha.get_request_method');
+        $requestMethod = is_callable($getRequestMethod) ? call_user_func($getRequestMethod) : null;
+        $reCaptCha = new ReCaptcha($this->config->get('captcha.secret'), $requestMethod);
 
-        return $resp->isSuccess();
+        return $reCaptCha->verify($response, $clientIp)->isSuccess();
     }
 }
