@@ -40,6 +40,24 @@ Add ServiceProvider to the `providers` array in `app/config/app.php`.
 php artisan vendor:publish --provider="Buzz\LaravelGoogleCaptcha\CaptchaServiceProvider"
 ```
 
+### Custom ReCaptcha request (available version 2.1.6)
+
+Edit ``get_request_method`` in the ``config/captcha.php`` config
+
+```php
+<?php
+/*
+ * Secret key and Site key get on https://www.google.com/recaptcha
+ * */
+return [
+    'secret' => env('CAPTCHA_SECRET', 'default_secret'),
+    'sitekey' => env('CAPTCHA_SITEKEY', 'default_sitekey'),
+    'get_request_method' => function () {
+        return new \ReCaptcha\RequestMethod\Post();
+    }
+];
+```
+
 ## Configuration
 
 Add `CAPTCHA_SECRET` and `CAPTCHA_SITEKEY` to **.env** file:
@@ -105,6 +123,7 @@ $validate = Validator::make(Input::all(), [
     'g-recaptcha-response' => 'required|captcha'
 ]);
 ```
+
 ### Testing
 
 When using the Laravel Testing functionality, you will need to mock out the response for the captcha form element.
