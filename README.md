@@ -42,9 +42,11 @@ Add ServiceProvider to the `providers` array in `config/app.php`.
 php artisan vendor:publish --provider="Buzz\LaravelGoogleCaptcha\CaptchaServiceProvider"
 ```
 
-### Custom ReCaptcha request (available version 2.1.6)
+### Custom ReCaptcha request (available version 2.1.7)
 
-Edit ``get_request_method`` in the ``config/captcha.php`` config
+Edit ``request_method`` in the ``config/captcha.php`` config
+
+file ``config/captcha.php``
 
 ```php
 <?php
@@ -54,10 +56,39 @@ Edit ``get_request_method`` in the ``config/captcha.php`` config
 return [
     'secret' => env('CAPTCHA_SECRET', 'default_secret'),
     'sitekey' => env('CAPTCHA_SITEKEY', 'default_sitekey'),
-    'get_request_method' => function () {
+    /**
+     * @var string|null Default ``null``.
+     * Custom with function name (example customRequestCaptcha) or class@method (example \App\CustomRequestCaptcha@custom).
+     * Function must be return instance, read more in folder ``examples``
+     */
+    'request_method' => null,
+];
+```
+
+file ``app/helpers.php``
+
+```php
+<?php
+
+function customRequestCaptcha(){
+    return new \ReCaptcha\RequestMethod\Post();
+}
+```
+
+file ``app/CustomRequestCaptcha.php``
+
+```php
+<?php
+
+namespace App;
+
+class CustomRequestCaptcha
+{
+    public function custom()
+    {
         return new \ReCaptcha\RequestMethod\Post();
     }
-];
+}
 ```
 
 ## Configuration

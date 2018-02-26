@@ -21,7 +21,7 @@ class CaptchaServiceProvider extends ServiceProvider
     public function boot()
     {
         /**
-         * @var \Illuminate\Foundation\Application $app
+         * @var \Illuminate\Contracts\Foundation\Application $app
          */
         $app = $this->app;
         $this->bootConfig();
@@ -36,7 +36,6 @@ class CaptchaServiceProvider extends ServiceProvider
     }
 
     /**
-     * //
      *
      * @return void
      */
@@ -45,7 +44,7 @@ class CaptchaServiceProvider extends ServiceProvider
         $path = __DIR__ . '/../config/config.php';
         $this->mergeConfigFrom($path, 'captcha');
         $this->publishes([
-            $path => implode(DIRECTORY_SEPARATOR, [$this->app->make('path.config'), 'captcha.php'])
+            $path => $this->app->make('path.config') . (DIRECTORY_SEPARATOR . 'captcha.php'),
         ]);
     }
 
@@ -57,7 +56,7 @@ class CaptchaServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton('captcha', function ($app) {
-            return new Captcha($app['config']);
+            return new Captcha($app);
         });
     }
 
