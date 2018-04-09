@@ -5,6 +5,13 @@
 
 > Inspired by [anhskohbo/no-captcha](https://github.com/anhskohbo/no-captcha) and base on [google captcha sdk](https://github.com/google/recaptcha).
 
+## Features
+
+[x] Multiple captcha on page
+[x] Reset captcha
+[x] Auto discover service provider
+[x] Custom request method
+
 ## Installation
 
 Add the following line to the `require` section of `composer.json`:
