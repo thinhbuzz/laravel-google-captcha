@@ -11,5 +11,14 @@
 <form>
     {!! app('captcha')->display() !!}
 </form>
+<button id="reset">Reset</button>
+<script>
+  var reset = document.querySelector('#reset');
+  if (reset) {
+    reset.addEventListener('click', () => {
+      grecaptcha.reset()
+    });
+  }
+</script>
 </body>
 </html>
