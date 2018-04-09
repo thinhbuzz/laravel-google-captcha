@@ -17,6 +17,13 @@ class Captcha
     protected $callbackName = 'buzzNoCaptchaOnLoadCallback';
 
     /**
+     * Name of widget ids
+     *
+     * @var string $widgetIdName
+     */
+    protected $widgetIdName = 'buzzNoCaptchaWidgetIds';
+
+    /**
      * Each captcha attributes in multiple mode
      *
      * @var array $captchaAttributes
@@ -141,25 +148,12 @@ class Captcha
         if (!$this->options->get('multiple', $options)) {
             return '';
         }
-        $excludeAttributes = ['id'];
-        $html = ' <script type="text/javascript">var ' . $this->callbackName . ' = function() {';
-        foreach ($this->captchaAttributes as $index => $captchaAttribute) {
-            $attributes = ['sitekey' => $this->config->get('captcha.sitekey')];
-            foreach ($captchaAttribute as $key => $value) {
-                if (in_array($key, $excludeAttributes)) {
-                    continue;
-                }
-                if (strpos($key, 'data-') === false) {
-                    $attributes[$key] = $value;
-                } else {
-                    $attributes[str_replace('data-', '', $key)] = $value;
-                }
-            }
-            $html .= 'grecaptcha.render(\'' . $captchaAttribute['id'] . '\', ' . json_encode($attributes) . ');';
+        $renderHtml = '';
+        foreach ($this->captchaAttributes as $captchaAttribute){
+            $renderHtml .= "{$this->widgetIdName}[\"{$captchaAttribute['id']}\"]={$this->buildCaptchaHtml($captchaAttribute)}";
         }
-        $html .= '};</script>';
 
-        return $html;
+        return "<script type=\"text/javascript\">var {$this->widgetIdName}={};var {$this->callbackName}=function(){{$renderHtml}};</script>";
     }
 
     /**
@@ -206,5 +200,26 @@ class Captcha
         $reCaptCha = new ReCaptcha($this->config->get('captcha.secret'), $requestMethod);
 
         return $reCaptCha->verify($response, $clientIp)->isSuccess();
+    }
+
+    /**
+     * Build captcha by attributes
+     *
+     * @param array $captchaAttribute
+     *
+     * @return string
+     */
+    protected function buildCaptchaHtml(array $captchaAttribute)
+    {
+        $options = ['sitekey' => $this->config->get('captcha.sitekey')];
+        foreach ($captchaAttribute as $key => $value) {
+            if (strpos($key, 'data-') === false) {
+                $options[$key] = $value;
+            } else {
+                $options[str_replace('data-', '', $key)] = $value;
+            }
+        }
+        $options = json_encode($options);
+        return "grecaptcha.render('{$captchaAttribute['id']}',{$options});";
     }
 }
