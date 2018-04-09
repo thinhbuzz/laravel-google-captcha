@@ -7,10 +7,13 @@
 
 ## Features
 
-[x] Multiple captcha on page
-[x] Reset captcha
-[x] Auto discover service provider
-[x] Custom request method
+- [x] Multiple captcha on page
+
+- [x] Reset captcha
+
+- [x] Auto discover service provider
+
+- [x] Custom request method
 
 ## Installation
 
