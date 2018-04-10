@@ -164,7 +164,7 @@ class Captcha
      */
     public function displayJs($options = [], $attributes = ['async', 'defer'])
     {
-        return '<script src="' . $this->getJsLink($options) . '" ' . implode(' ', $attributes) . '></script>';
+        return '<script src="' . htmlspecialchars($this->getJsLink($options)) . '" ' . implode(' ', $attributes) . '></script>';
     }
 
     /**
