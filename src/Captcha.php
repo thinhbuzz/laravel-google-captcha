@@ -52,9 +52,9 @@ class Captcha
      */
     public function __construct(Application $app)
     {
-        $this->options = new Option(['multiple' => false]);
-        $this->config = $app['config'];
         $this->app = $app;
+        $this->config = $this->app['config'];
+        $this->options = new Option($this->config->get('captcha.options'));
     }
 
     /**
@@ -211,13 +211,12 @@ class Captcha
      */
     protected function buildCaptchaHtml(array $captchaAttribute)
     {
-        $options = ['sitekey' => $this->config->get('captcha.sitekey')];
+        $options = array_merge(
+            ['sitekey' => $this->config->get('captcha.sitekey')],
+            $this->config->get('captcha.attributes', [])
+        );
         foreach ($captchaAttribute as $key => $value) {
-            if (strpos($key, 'data-') === false) {
-                $options[$key] = $value;
-            } else {
-                $options[str_replace('data-', '', $key)] = $value;
-            }
+            $options[str_replace('data-', '', $key)] = $value;
         }
         $options = json_encode($options);
         return "grecaptcha.render('{$captchaAttribute['id']}',{$options});";

@@ -11,4 +11,11 @@ return [
      * Function must be return instance, read more in folder ``examples``
      */
     'request_method' => null,
+    'options' => [
+        'multiple' => false,
+        'lang' => app()->getLocale(),
+    ],
+    'attributes' => [
+        'theme' => 'light'
+    ],
 ];
