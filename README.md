@@ -72,6 +72,13 @@ return [
      * Function must be return instance, read more in folder ``examples``
      */
     'request_method' => null,
+    'options' => [
+        'multiple' => false,
+        'lang' => app()->getLocale(),
+    ],
+    'attributes' => [
+        'theme' => 'light'
+    ],
 ];
 ```
 
@@ -130,7 +137,7 @@ OR use Form
 ```
 With custom language support:
 ```php
-{!! app('captcha')->display($attributes = [], $options = ['lang'=> 'vi'); !!}
+{!! app('captcha')->display($attributes = [], $options = ['lang'=> 'vi') !!}
 ```
 
 With
