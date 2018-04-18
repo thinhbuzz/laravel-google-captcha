@@ -17,9 +17,9 @@
     {!! app('captcha')->display() !!}
     {{--    {!! app('captcha')->display([], ['multiple' => true]) !!}--}}
 </form>
-{!! app('captcha')->displayJs() !!}
 {!! app('captcha')->displayMultiple() !!}
 {{--{!! app('captcha')->displayMultiple(['multiple' => true]) !!}--}}
+{!! app('captcha')->displayJs() !!}
 <button id="reset_1">Reset 1</button>
 <button id="reset_all">Reset all</button>
 <script>
