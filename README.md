@@ -137,7 +137,7 @@ OR use Form
 ```
 With custom language support:
 ```php
-{!! app('captcha')->display($attributes = [], $options = ['lang'=> 'vi') !!}
+{!! app('captcha')->display($attributes = [], $options = ['lang'=> 'vi']) !!}
 ```
 
 With
