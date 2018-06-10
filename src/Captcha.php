@@ -118,7 +118,7 @@ class Captcha
             $query['hl'] = $lang;
         }
 
-        return static::CAPTCHA_CLIENT_API . '?' . http_build_query($query);
+        return static::CAPTCHA_CLIENT_API . '?' . http_build_query($query, null, '&amp;');
     }
 
     /**
