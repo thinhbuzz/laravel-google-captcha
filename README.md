@@ -92,7 +92,7 @@ function customRequestCaptcha(){
 }
 ```
 
-file ``app/CustomRequestCaptcha.php``
+or file ``app/CustomRequestCaptcha.php``
 
 ```php
 <?php
@@ -169,6 +169,9 @@ More infomation on [google recaptcha document](https://developers.google.com/rec
 Add `'g-recaptcha-response' => 'required|captcha'` to rules array.
 
 ```php
+use Validator;
+use Illuminate\Support\Facades\Input;
+
 $validate = Validator::make(Input::all(), [
     'g-recaptcha-response' => 'required|captcha'
 ]);
