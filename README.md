@@ -1,7 +1,7 @@
-# Google captcha for Laravel 5.*
+# Google captcha for Laravel 5 and 6
 > Support multiple captcha on page
 
-![google captcha for Laravel 5](http://i.imgur.com/aHBOqAS.gif)
+![Google captcha for Laravel 5 and 6](http://i.imgur.com/aHBOqAS.gif)
 
 > Inspired by [anhskohbo/no-captcha](https://github.com/anhskohbo/no-captcha) and base on [google captcha sdk](https://github.com/google/recaptcha).
 
