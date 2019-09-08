@@ -15,6 +15,10 @@
 
 - [x] Custom request method
 
+- [x] Using difference key
+
+- [x] Dynamic options on runtime
+
 ## Installation
 
 Add the following line to the `require` section of `composer.json`:
@@ -69,7 +73,7 @@ return [
     /**
      * @var string|null Default ``null``.
      * Custom with function name (example customRequestCaptcha) or class@method (example \App\CustomRequestCaptcha@custom).
-     * Function must be return instance, read more in folder ``examples``
+     * Function must be return instance, read more in repo ``https://github.com/thinhbuzz/laravel-google-captcha-examples``
      */
     'request_method' => null,
     'options' => [
@@ -119,6 +123,10 @@ CAPTCHA_SITEKEY=[site-key]
 
 ## Usage
 
+### View example
+> Get examples in [examples repo](https://github.com/thinhbuzz/laravel-google-captcha-examples)
+
+
 ### Display reCAPTCHA
 
 ```php
@@ -157,11 +165,7 @@ $options = [
 ];
 ```
 
-More infomation on [google recaptcha document](https://developers.google.com/recaptcha/docs/display)
-
-### View example
-> Get examples in examples directory
-
+More information on [google recaptcha document](https://developers.google.com/recaptcha/docs/display)
 > Please help me write readme for this content
 
 ### Validation

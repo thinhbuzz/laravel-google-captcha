@@ -2,7 +2,9 @@
 
 namespace Buzz\LaravelGoogleCaptcha;
 
+use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Support\Arr;
 use ReCaptcha\ReCaptcha;
 
 class Captcha
@@ -31,19 +33,12 @@ class Captcha
     protected $captchaAttributes = [];
 
     /**
-     * Set global options
-     *
-     * @var Option $options
-     */
-    protected $options;
-
-    /**
-     * @var \Illuminate\Contracts\Config\Repository $config
+     * @var Repository $config
      */
     protected $config;
 
     /**
-     * @var \Illuminate\Contracts\Config\Repository $app
+     * @var Repository $app
      */
     protected $app;
 
@@ -54,7 +49,6 @@ class Captcha
     {
         $this->app = $app;
         $this->config = $this->app['config'];
-        $this->options = new Option($this->config->get('captcha.options'));
     }
 
     /**
@@ -62,27 +56,28 @@ class Captcha
      *
      * @param array $attributes
      * @param array $options
+     *
      * @return string
      */
     public function display($attributes = [], $options = [])
     {
-        $isMultiple = (bool)$this->options->get('multiple', $options);
+        $isMultiple = (bool)$this->optionOrConfig($options, 'options.multiple');
         if (!array_key_exists('id', $attributes)) {
             $attributes['id'] = $this->randomCaptchaId();
         }
         $html = '';
-        if (!$isMultiple && array_get($attributes, 'add-js', true)) {
+        if (!$isMultiple && Arr::get($attributes, 'add-js', true)) {
             $html .= '<script src="' . $this->getJsLink($options) . '" async defer></script>';
         }
         unset($attributes['add-js']);
-        $attributeOptions = $this->options->get('attributes', $options);
+        $attributeOptions = $this->optionOrConfig($options, 'attributes');
         if (!empty($attributeOptions)) {
             $attributes = array_merge($attributeOptions, $attributes);
         }
         if ($isMultiple) {
             array_push($this->captchaAttributes, $attributes);
         } else {
-            $attributes['data-sitekey'] = $this->config->get('captcha.sitekey');
+            $attributes['data-sitekey'] = $this->optionOrConfig($options, 'sitekey');
         }
 
         return $html . '<div class="g-recaptcha"' . $this->buildAttributes($attributes) . '></div>';
@@ -102,29 +97,31 @@ class Captcha
      * Create javascript api link with language
      *
      * @param array $options
+     *
      * @return string
      */
     public function getJsLink($options = [])
     {
         $query = [];
-        if ($this->options->get('multiple', $options)) {
+        if ($this->optionOrConfig($options, 'options.multiple')) {
             $query = [
                 'onload' => $this->callbackName,
                 'render' => 'explicit',
             ];
         }
-        $lang = $this->options->get('lang', $options);
+        $lang = $this->optionOrConfig($options, 'options.lang');
         if ($lang) {
             $query['hl'] = $lang;
         }
 
-        return static::CAPTCHA_CLIENT_API . '?' . http_build_query($query, null, '&amp;');
+        return static::CAPTCHA_CLIENT_API . '?' . http_build_query($query);
     }
 
     /**
      * Create captcha element with attributes
      *
-     * @param  array $attributes
+     * @param array $attributes
+     *
      * @return string
      */
     protected function buildAttributes(array $attributes)
@@ -141,16 +138,17 @@ class Captcha
      * Display multiple captcha on page
      *
      * @param array $options
+     *
      * @return string
      */
     public function displayMultiple($options = [])
     {
-        if (!$this->options->get('multiple', $options)) {
+        if (!$this->optionOrConfig($options, 'options.multiple')) {
             return '';
         }
         $renderHtml = '';
-        foreach ($this->captchaAttributes as $captchaAttribute){
-            $renderHtml .= "{$this->widgetIdName}[\"{$captchaAttribute['id']}\"]={$this->buildCaptchaHtml($captchaAttribute)}";
+        foreach ($this->captchaAttributes as $captchaAttribute) {
+            $renderHtml .= "{$this->widgetIdName}[\"{$captchaAttribute['id']}\"]={$this->buildCaptchaHtml($captchaAttribute, $options)}";
         }
 
         return "<script type=\"text/javascript\">var {$this->widgetIdName}={};var {$this->callbackName}=function(){{$renderHtml}};</script>";
@@ -159,6 +157,7 @@ class Captcha
     /**
      * @param array $options
      * @param array $attributes
+     *
      * @return string
      * @internal param null $lang
      */
@@ -172,7 +171,7 @@ class Captcha
      */
     public function multiple($multiple = true)
     {
-        $this->options->multiple = $multiple;
+        $this->config->set('captcha.options.multiple', $multiple);
     }
 
     /**
@@ -180,24 +179,26 @@ class Captcha
      */
     public function setOptions($options = [])
     {
-        $this->options->set($options);
+        $this->config->set('captcha.options', $options);
     }
 
     /**
      * Verify captcha
      *
-     * @param  string $response
-     * @param  string $clientIp
+     * @param string $response
+     * @param string $clientIp
+     * @param array $options
+     *
      * @return bool
      */
-    public function verify($response, $clientIp = null)
+    public function verify($response, $clientIp = null, $options = [])
     {
         if (empty($response)) {
             return false;
         }
-        $getRequestMethod = $this->config->get('captcha.request_method');
+        $getRequestMethod = $this->optionOrConfig($options, 'request_method');
         $requestMethod = is_string($getRequestMethod) ? $this->app->call($getRequestMethod) : null;
-        $reCaptCha = new ReCaptcha($this->config->get('captcha.secret'), $requestMethod);
+        $reCaptCha = new ReCaptcha($this->optionOrConfig($options, 'secret'), $requestMethod);
 
         return $reCaptCha->verify($response, $clientIp)->isSuccess();
     }
@@ -206,19 +207,33 @@ class Captcha
      * Build captcha by attributes
      *
      * @param array $captchaAttribute
+     * @param array $options
      *
      * @return string
      */
-    protected function buildCaptchaHtml(array $captchaAttribute)
+    protected function buildCaptchaHtml($captchaAttribute = [], $options = [])
     {
         $options = array_merge(
-            ['sitekey' => $this->config->get('captcha.sitekey')],
-            $this->config->get('captcha.attributes', [])
+            ['sitekey' => $this->optionOrConfig($options, 'sitekey')],
+            $this->optionOrConfig($options, 'attributes', [])
         );
         foreach ($captchaAttribute as $key => $value) {
             $options[str_replace('data-', '', $key)] = $value;
         }
         $options = json_encode($options);
+
         return "grecaptcha.render('{$captchaAttribute['id']}',{$options});";
+    }
+
+    /**
+     * @param array $options
+     * @param string $key
+     * @param mixed $default
+     *
+     * @return mixed
+     */
+    protected function optionOrConfig($options = [], $key = '', $default = null)
+    {
+        return Arr::get($options, str_replace('options.', '', $key), $this->config->get('captcha.' . $key, $default));
     }
 }
