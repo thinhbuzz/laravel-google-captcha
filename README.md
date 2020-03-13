@@ -1,7 +1,7 @@
-# Google captcha for Laravel 5 and 6
+# Google captcha for Laravel 5, Laravel 6 and Laravel 7
 > Support multiple captcha on page
 
-![Google captcha for Laravel 5 and 6](http://i.imgur.com/aHBOqAS.gif)
+![Google captcha for Laravel 5, Laravel 6 and Laravel 7](http://i.imgur.com/aHBOqAS.gif)
 
 > Inspired by [anhskohbo/no-captcha](https://github.com/anhskohbo/no-captcha) and base on [google captcha sdk](https://github.com/google/recaptcha).
 
@@ -56,7 +56,7 @@ Add ServiceProvider to the `providers` array in `config/app.php`.
 php artisan vendor:publish --provider="Buzz\LaravelGoogleCaptcha\CaptchaServiceProvider"
 ```
 
-### Custom ReCaptcha request (available version 2.1.7)
+### Custom ReCaptcha request (minimum version 2.1.7)
 
 Edit ``request_method`` in the ``config/captcha.php`` config
 

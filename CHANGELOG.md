@@ -2,6 +2,9 @@
 
 All Notable changes to Packager will be documented in this file.
 
+## Version 2.3
+- Support laravel 7
+
 ## Version 2.2
 - Support laravel 6
 - Support difference key
