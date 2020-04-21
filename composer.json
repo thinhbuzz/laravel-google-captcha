@@ -1,13 +1,18 @@
 {
   "name": "buzz/laravel-google-captcha",
-  "description": "Google captcha for laravel 5.*",
+  "description": "Google captcha for Laravel 5, Laravel 6 and Laravel 7",
   "keywords": [
     "recaptcha",
     "no-captcha",
     "google-captcha",
     "captcha",
     "laravel",
-    "laravel5"
+    "laravel5",
+    "laravel6",
+    "laravel7",
+    "laravel 5",
+    "laravel 6",
+    "laravel 7"
   ],
   "homepage": "https://github.com/thinhbuzz/laravel-google-captcha",
   "license": "MIT",
