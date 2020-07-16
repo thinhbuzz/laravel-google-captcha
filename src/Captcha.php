@@ -28,9 +28,9 @@ class Captcha
     /**
      * Each captcha attributes in multiple mode
      *
-     * @var array $captchaAttributes
+     * @var array $multipleCaptchaData
      */
-    protected $captchaAttributes = [];
+    protected $multipleCaptchaData = [];
 
     /**
      * @var Repository $config
@@ -75,7 +75,7 @@ class Captcha
             $attributes = array_merge($attributeOptions, $attributes);
         }
         if ($isMultiple) {
-            array_push($this->captchaAttributes, $attributes);
+            array_push( $this->multipleCaptchaData, [$attributes, $options] );
         } else {
             $attributes['data-sitekey'] = $this->optionOrConfig($options, 'sitekey');
         }
@@ -137,18 +137,20 @@ class Captcha
     /**
      * Display multiple captcha on page
      *
-     * @param array $options
+     * @param array $globalOptions
      *
      * @return string
      */
-    public function displayMultiple($options = [])
+    public function displayMultiple($globalOptions = [])
     {
-        if (!$this->optionOrConfig($options, 'options.multiple')) {
+        if (!$this->optionOrConfig($globalOptions, 'options.multiple')) {
             return '';
         }
         $renderHtml = '';
-        foreach ($this->captchaAttributes as $captchaAttribute) {
-            $renderHtml .= "{$this->widgetIdName}[\"{$captchaAttribute['id']}\"]={$this->buildCaptchaHtml($captchaAttribute, $options)}";
+        foreach ($this->multipleCaptchaData as $multipleCaptchaData) {
+            $attributes = $multipleCaptchaData[0];
+            $options = array_merge( $globalOptions, $multipleCaptchaData[1] );
+            $renderHtml .= "{$this->widgetIdName}[\"{$attributes['id']}\"]={$this->buildCaptchaHtml($attributes, $options)}";
         }
 
         return "<script type=\"text/javascript\">var {$this->widgetIdName}={};var {$this->callbackName}=function(){{$renderHtml}};</script>";
