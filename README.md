@@ -7,7 +7,7 @@
 
 ## Features
 
-- [x] Support Laravel 5/6/7/8/9
+- [x] Support Laravel 5/6/7/8/9/10
 
 - [x] Multiple captcha on page
 
