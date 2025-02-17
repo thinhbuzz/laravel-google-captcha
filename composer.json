@@ -1,46 +1,46 @@
 {
-  "name": "buzz/laravel-google-captcha",
-  "description": "Google captcha for Laravel",
-  "keywords": [
-    "recaptcha",
-    "google captcha",
-    "captcha",
-    "laravel",
-    "laravel 5",
-    "laravel 6",
-    "laravel 7",
-    "laravel 8",
-    "laravel 9",
-    "laravel 10",
-    "laravel 11"
-  ],
-  "homepage": "https://github.com/thinhbuzz/laravel-google-captcha",
-  "license": "MIT",
-  "authors": [
-    {
-      "name": "ThinhBuzz",
-      "email": "mr.thinhbuzz@gmail.com",
-      "homepage": "https://www.facebook.com/thinh.buzz"
+    "name": "buzz/laravel-google-captcha",
+    "description": "Google captcha for Laravel",
+    "keywords": [
+        "recaptcha",
+        "google captcha",
+        "captcha",
+        "laravel",
+        "laravel 5",
+        "laravel 6",
+        "laravel 7",
+        "laravel 8",
+        "laravel 9",
+        "laravel 10",
+        "laravel 11"
+    ],
+    "homepage": "https://github.com/thinhbuzz/laravel-google-captcha",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "ThinhBuzz",
+            "email": "mr.thinhbuzz@gmail.com",
+            "homepage": "https://www.facebook.com/thinh.buzz"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "illuminate/support": "5.*|6.*|7.*|8.*|9.*|10.*|^11.0|^12.0",
+        "google/recaptcha": "1.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Buzz\\LaravelGoogleCaptcha\\": "src"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Buzz\\LaravelGoogleCaptcha\\CaptchaServiceProvider"
+            ],
+            "aliases": {
+                "Captcha": "Buzz\\LaravelGoogleCaptcha\\CaptchaFacade"
+            }
+        }
     }
-  ],
-  "require": {
-    "php": ">=5.4.0",
-    "illuminate/support": "5.*|6.*|7.*|8.*|9.*|10.*|^11.0",
-    "google/recaptcha": "1.*"
-  },
-  "autoload": {
-    "psr-4": {
-      "Buzz\\LaravelGoogleCaptcha\\": "src"
-    }
-  },
-  "extra": {
-    "laravel": {
-      "providers": [
-        "Buzz\\LaravelGoogleCaptcha\\CaptchaServiceProvider"
-      ],
-      "aliases": {
-        "Captcha": "Buzz\\LaravelGoogleCaptcha\\CaptchaFacade"
-      }
-    }
-  }
 }
